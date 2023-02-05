@@ -2,16 +2,16 @@ import React from 'react'
 import Footer from '../components/Footer'
 import Navbar from '../components/Navbar'
 
-const Home = () => {
+const Contact = () => {
   return (
     <section>
-      <Navbar />
-      <div className='min-h-screen'>
+        <Navbar />
+        <div className='min-h-screen'>
 
-      </div>
-      <Footer />
+        </div>
+        <Footer />
     </section>
   )
 }
 
-export default Home 
+export default Contact
