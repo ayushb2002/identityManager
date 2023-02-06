@@ -26,8 +26,7 @@ const Register = () => {
       }
       catch(err)
       {
-        toast.error(err);
-        console.log(err);
+        toast.error('Failed!');
       }
   };
 
@@ -64,7 +63,7 @@ const Register = () => {
         <label className="label">
             <span className="label-text">Wallet Address</span>
           </label>
-          <button className="btn btn-secondary" onClick={metaClick}>Connect Metamask</button>
+          <button className="btn btn-secondary" onClick={metaClick} disabled={wallet!==''?true:false}>Connect Metamask</button>
         </div>
         <div className="form-control">
           <label className="label">
