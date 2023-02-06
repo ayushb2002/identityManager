@@ -8,6 +8,7 @@ contract Identity {
         string name;
         uint256 dateOfBirth; // convert date to number of seconds and then store
         string gender;
+        string emailAddress;
         string hashedPwd;
     } // remove this structure and compare the data with response received from UIDAI API
 
@@ -29,7 +30,7 @@ contract Identity {
 
     Hosts[] public allHosts;
 
-    function registerIdentity(string memory _adhaar, string memory _name, uint256 _dob, string memory _gender, string memory _hashedPwd) public returns (bool) {
+    function registerIdentity(string memory _adhaar, string memory _name, uint256 _dob, string memory _gender, string memory _email, string memory _hashedPwd) public returns (bool) {
         if (compareStrings(wallet[msg.sender], _adhaar))
         {
             return false; // checks if identity already exists and belings to same person
@@ -38,7 +39,7 @@ contract Identity {
         {
             return false; // checks if identity already exists
         }
-        adhaar[_adhaar] = Data(msg.sender, _name, _dob, _gender, _hashedPwd);
+        adhaar[_adhaar] = Data(msg.sender, _name, _dob, _gender, _email, _hashedPwd);
         wallet[msg.sender] = _adhaar;
         return true;
     } 
