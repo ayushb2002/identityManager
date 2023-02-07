@@ -30,19 +30,17 @@ contract Identity {
 
     Hosts[] public allHosts;
 
-    function registerIdentity(string memory _adhaar, string memory _name, uint256 _dob, string memory _gender, string memory _email, string memory _hashedPwd) public returns (bool) {
-        if (compareStrings(wallet[msg.sender], _adhaar))
-        {
-            return false; // checks if identity already exists and belings to same person
-        }
-        if (adhaar[_adhaar].dateOfBirth > 0)
-        {
-            return false; // checks if identity already exists
-        }
+    function registerIdentity(string memory _adhaar, string memory _name, uint256 _dob, string memory _gender, string memory _email, string memory _hashedPwd) public {
+        require(!compareStrings(wallet[msg.sender], _adhaar), "Identity already exists!");
+        require(adhaar[_adhaar].dateOfBirth <= 0, "Identity already exists!");
         adhaar[_adhaar] = Data(msg.sender, _name, _dob, _gender, _email, _hashedPwd);
         wallet[msg.sender] = _adhaar;
-        return true;
     } 
+
+    function loginIdentity(string memory _adhaar) public view returns (string memory)  {
+        require(compareStrings(wallet[msg.sender], _adhaar), "Wallet does not belong to the adhaar holder!");
+        return adhaar[_adhaar].hashedPwd;
+    }
 
     function compareStrings(string memory a, string memory b) public pure returns (bool) {
         return (keccak256(abi.encodePacked((a))) == keccak256(abi.encodePacked((b))));
