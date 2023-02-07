@@ -30,7 +30,8 @@ const Register = () => {
       }
   };
 
-  const registration = async () => {
+  const registration = async (e) => {
+    e.preventDefault();
     var result = await registerIdentity(adhaar, name, dob, gender, email, pwd);
     if(result)
     {
@@ -63,7 +64,10 @@ const Register = () => {
         <label className="label">
             <span className="label-text">Wallet Address</span>
           </label>
-          <button className="btn btn-secondary" onClick={metaClick} disabled={wallet!==''?true:false}>Connect Metamask</button>
+          <button className="btn btn-secondary" onClick={metaClick} disabled={wallet!==''?true:false}>
+            {wallet==='' && (<span>Connect Metamask</span>)}
+            {wallet!=='' && (<span>{wallet.substring(0,20)}...</span>)}
+            </button>
         </div>
         <div className="form-control">
           <label className="label">
@@ -108,7 +112,7 @@ const Register = () => {
           <input type="password" placeholder="Password" className="input input-bordered" onChange={(e) => setPwd(e.target.value)} />
         </div>
         <div className="form-control mt-6">
-          <button className="btn btn-primary" onClick={registration}>Login</button>
+          <button className="btn btn-primary" type="button" onClick={registration} disabled={wallet!==''?false:true}>Register</button>
         </div>
       </div>
     </div>

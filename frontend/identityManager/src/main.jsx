@@ -12,6 +12,7 @@ import Error from './pages/Error';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Welcome from './pages/Welcome';
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,15 @@ const router = createBrowserRouter([
     element: <Register />,
     errorElement: <Error />
   },
+  {
+    path: '/profile',
+    element: <Welcome />,
+    errorElement: <Error />
+  },
+  {
+    path: '/error',
+    element: <Error />
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
