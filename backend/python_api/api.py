@@ -8,7 +8,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 @cross_origin()
 
 @app.route("/aadhar_verify",methods=['POST'])
-def aadhar_verify():
+def aadhar_verify(request):
     print("Started")
     # imagefile =request.files.get('file')
     # imagefile.save(imagefile.filename)
@@ -25,3 +25,7 @@ def aadhar_verify():
     #     'Country  of origin':request.form.get('Country  of origin'),
     #     'Warranty Period(in months)':request.form.get('Warranty Period(in months)')
     # }
+
+# Adhaar, Wallet -> If this identity exists and belongs to the user (true) otherwise false
+# If true, we send otp to the owner's mail address
+# Website POST OTP -> Otp verified -> Logged in (true) else false
