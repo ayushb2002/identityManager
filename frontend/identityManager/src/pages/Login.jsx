@@ -27,7 +27,7 @@ const Login = () => {
       }
   };
 
-  const signIn = async (e) => {
+  const signIn = async function (e) {
     e.preventDefault();
     var result = await loginIdentity(adhaar, pwd);
     console.log(result);
@@ -60,6 +60,7 @@ const Login = () => {
     </div>
     <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
       <div className="card-body">
+        <form onSubmit={signIn}>
       <div className="form-control">
         <label className="label">
             <span className="label-text">Wallet Address</span>
@@ -82,8 +83,9 @@ const Login = () => {
           <input type="password" placeholder="password" className="input input-bordered" onChange={(e) => setPwd(e.target.value)} />
         </div>
         <div className="form-control mt-6">
-          <button className="btn btn-primary" onClick={signIn} disabled={wallet === ''? true:false}>Login</button>
+          <button className="btn btn-primary" type='submit' disabled={wallet === ''? true:false}>Login</button>
         </div>
+        </form>
       </div>
     </div>
   </div>

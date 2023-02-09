@@ -60,6 +60,7 @@ const Register = () => {
     </div>
     <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
       <div className="card-body">
+        <form onSubmit={registration}>
       <div className="form-control">
         <label className="label">
             <span className="label-text">Wallet Address</span>
@@ -112,8 +113,9 @@ const Register = () => {
           <input type="password" placeholder="Password" className="input input-bordered" onChange={(e) => setPwd(e.target.value)} />
         </div>
         <div className="form-control mt-6">
-          <button className="btn btn-primary" type="button" onClick={registration} disabled={wallet!==''?false:true}>Register</button>
+          <button className="btn btn-primary" type="submit" disabled={wallet!==''?false:true}>Register</button>
         </div>
+        </form>
       </div>
     </div>
   </div>
