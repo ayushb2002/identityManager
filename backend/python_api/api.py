@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
 from idcard import * 
 import keras_ocr
@@ -10,26 +10,24 @@ cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 @cross_origin()
 
-@app.route("/aadhar_verify")
+@app.route("/aadhar_verify",methods = ['POST'])
 def aadhar_verify():
     print("Started")
-    aadhar_check(pipeline,'aadhar2.jpg')
-    return "done"
-    # imagefile =request.files.get('file')
-    # imagefile.save(imagefile.filename)
-    # imagefilepath=imagefile.filename
-    # name=request.form.get('Product') +' | '+request.form.get('Serial number')
-    # description=request.form.get('Description')
-
-    # trait={'Product':request.form.get('Product'),
-    #     'Serial number':request.form.get('Serial number'),
-    #     'Product type':request.form.get('Product type'),
-    #     'Seller':request.form.get('Seller'),
-    #     'Manufacturer':request.form.get('Manufacturer'),
-    #     'Price':request.form.get('Price'),
-    #     'Country  of origin':request.form.get('Country  of origin'),
-    #     'Warranty Period(in months)':request.form.get('Warranty Period(in months)')
-    # }
+    imagefile=request.files.get('file')
+    imagefile.save(imagefile.filename)
+    imagefilepath=imagefile.filename
+    
+    name=request.form.get('name')
+    aadhaar=request.form.get('aadhaar')
+    # wallet=request.form.get('wallet')
+    # email=request.form.get('email')
+    gender=request.form.get('gender')
+    # dob=request.form.get('dob')
+    # pwd=request.form.get('pwd')
+    
+    res=str(aadhar_check(pipeline,imagefilepath,name,aadhaar,gender))
+    print("Done")
+    return res
 
 # Adhaar, Wallet -> If this identity exists and belongs to the user (true) otherwise false
 # If true, we send otp to the owner's mail address
