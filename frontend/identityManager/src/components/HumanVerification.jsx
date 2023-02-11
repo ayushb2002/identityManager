@@ -17,8 +17,13 @@ const HumanVerification = () => {
             {
                 var date = new Date(1970, 0, 1);
                 date.setSeconds(latest);
-                console.log(date);
-                setVerified(latest);
+                var today = new Date();
+                var Difference_In_Time = today.getTime() - date.getTime();
+                var Difference_In_Days = parseInt(Difference_In_Time / (1000 * 3600 * 24));
+                if(Difference_In_Days >= 100)
+                    setVerified(0);
+                else
+                    setVerified(100-Difference_In_Days);
             }
         }
         catch(err)
@@ -62,10 +67,13 @@ const HumanVerification = () => {
   return (
     <div className='w-100 flex flex-col min-h-[70vh]'>
         <span className='text-2xl text-center p-5'>Human Verification</span>
-        {verified >= 0 && (
-            <progress className="progress progress-warning w-100" value={verified} max="100"></progress>
+        {verified > 0 && (
+            <>
+            <progress className="progress progress-warning w-100 my-5" value={verified} max="100"></progress>
+            <span>{verified} days remaining before next verification.</span>
+            </>
         )}
-        {verified == -1 && (
+        {verified <= 0 && (
             <>
             <p className='px-10'>Human verification pending! Complete this to enable usage of identity across platforms.</p>
             <button type='button' className='btn btn-primary w-[20vw] mx-auto m-5' onClick={verifyHuman}>Start human verification</button>

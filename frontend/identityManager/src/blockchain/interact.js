@@ -65,7 +65,7 @@ export const lastHumanVerified = async (_adhaar) => {
     {
         _adhaar = toString(_adhaar);
         const lastHV = await contract.lastHumanVerified(_adhaar);
-        return lastHV;
+        return parseInt(lastHV);
     }
     catch(err)
     {
@@ -76,10 +76,11 @@ export const lastHumanVerified = async (_adhaar) => {
 
 export const lastIDVerified = async (_adhaar) => {
     const contract = executeFunction();
+    _adhaar = toString(_adhaar);
     try
     {
         const lastID = await contract.returnIdExpiry(_adhaar);
-        return lastID;
+        return parseInt(lastID);
     }
     catch(err)
     {
