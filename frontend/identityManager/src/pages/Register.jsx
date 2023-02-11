@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Footer from '../components/Footer'
 import Navbar from '../components/Navbar'
 import { ethers } from "ethers";
-import { toast, Toaster } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import { registerIdentity } from "../blockchain/interact";
 
 const Register = () => {
@@ -13,7 +13,6 @@ const Register = () => {
   const [email, setEmail] = useState('');
   const [gender, setGender] = useState('');
   const [dob, setDob] = useState(0);
-  const [pwd, setPwd] = useState('');
 
   const metaClick = async (e) => {
     e.preventDefault();
@@ -29,6 +28,19 @@ const Register = () => {
     }
   };
 
+  const adhaarVerifyCall = async (formData) => {
+    const options = {
+      method: "POST",
+      // mode:'cors',
+      // credentials:'same-origin',
+
+      body: formData,
+    };
+    var adhaarVerify = await fetch("http://127.0.0.1:5000/aadhar_verify", options);
+    console.log(adhaarVerify);
+    return adhaarVerify;
+  }
+
   const registration = async (e) => {
     e.preventDefault();
     const fileInput = document.querySelector("#aadhaar_image");
@@ -41,23 +53,11 @@ const Register = () => {
     formData.append("email", email);
     formData.append("gender", gender);
     formData.append("dob", dob);
-    formData.append("pwd", pwd);
 
-    const func = async () => {
-      const options = {
-        method: "POST",
-        // mode:'cors',
-        //     credentials:'same-origin',
-
-        body: formData,
-      };
-      var rresult = await fetch("http://127.0.0.1:5000/aadhar_verify", options);
-      console.log(rresult)
-      return rresult
-    }
-    var rresult = await func()
-    if (rresult==='True'){
-      var result = await registerIdentity(adhaar, name, dob, gender, email, pwd);
+    // var adhaarVerify = await adhaarVerifyCall(formData);
+    var adhaarVerify = 'True';
+    if (adhaarVerify==='True'){
+      var result = await registerIdentity(adhaar, name, dob, gender, email);
       if (result) {
         toast.success('Your identity has been registered!');
         setTimeout(() => {
@@ -72,7 +72,7 @@ const Register = () => {
       }
     }
     else{
-      toast.error('Aadhaar couldn\'t be verified!');
+      toast.error("Aadhaar couldn't be verified!");
       setTimeout(() => {
         window.location.reload();
       }, 1000);
@@ -110,7 +110,7 @@ const Register = () => {
                   <label className="label">
                     <span className="label-text">Adhaar Card Number</span>
                   </label>
-                  <input type="number" min="100000000000" placeholder="xxxx xxxx xxxx" className="input input-bordered" onChange={(e) => setAdhaar(e.target.value)} />
+                  <input type="number" min="0" placeholder="xxxx xxxx xxxx" className="input input-bordered" onChange={(e) => setAdhaar(e.target.value)} />
                 </div>
                 <div className="form-control">
                   <label className="label">
@@ -135,12 +135,6 @@ const Register = () => {
                     <span className="label-text">Date of birth</span>
                   </label>
                   <input type="date" className="input input-bordered" onChange={(e) => setDob(e.target.value)} />
-                </div>
-                <div className="form-control">
-                  <label className="label">
-                    <span className="label-text">Password</span>
-                  </label>
-                  <input type="password" placeholder="Password" className="input input-bordered" onChange={(e) => setPwd(e.target.value)} />
                 </div>
                 <div className="form-control mt-6">
                   <button className="btn btn-primary" type="submit" disabled={wallet !== '' ? false : true}>Register</button>

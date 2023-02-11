@@ -10,7 +10,6 @@ const Login = () => {
   ReactSession.setStoreType("localStorage");
   const [wallet, setWallet] = useState('');
   const [adhaar, setAdhaar] = useState('');
-  const [pwd, setPwd] = useState('');
 
   const metaClick = async (e) => {
     e.preventDefault();
@@ -29,12 +28,12 @@ const Login = () => {
 
   const signIn = async function (e) {
     e.preventDefault();
-    var result = await loginIdentity(adhaar, pwd);
-    console.log(result);
+    var result = await loginIdentity(adhaar);
     if(result)
     {
+
       ReactSession.set('signedIn', true);
-      ReactSession.set('wallet', wallet);
+      ReactSession.set('adhaar', adhaar);
       toast.success('Verified credentials!');
       setTimeout(() => {
         window.location.href = '/profile';
@@ -74,13 +73,7 @@ const Login = () => {
           <label className="label">
             <span className="label-text">Adhaar Number</span>
           </label>
-          <input type="number" min="100000000000" placeholder="xxxx-xxxx-xxxx" className="input input-bordered" onChange={(e) => setAdhaar(e.target.value)} />
-        </div>
-        <div className="form-control">
-          <label className="label">
-            <span className="label-text">Password</span>
-          </label>
-          <input type="password" placeholder="password" className="input input-bordered" onChange={(e) => setPwd(e.target.value)} />
+          <input type="number" min="0" placeholder="xxxx-xxxx-xxxx" className="input input-bordered" onChange={(e) => setAdhaar(e.target.value)} />
         </div>
         <div className="form-control mt-6">
           <button className="btn btn-primary" type='submit' disabled={wallet === ''? true:false}>Login</button>
