@@ -1,9 +1,7 @@
-import React from 'react'
-import { useState, useLayoutEffect } from 'react'
-import { ReactSession } from 'react-client-session';
+import React, { useState, useLayoutEffect } from 'react';
+import { ReactSession } from "react-client-session";
 
 const Navbar = () => {
-  ReactSession.setStoreType("localStorage");
 
   const [loggedIn, setLoggedIn] = useState(false);
 

@@ -1417,7 +1417,7 @@ quick-lru@^5.1.1:
 
 react-client-session@^0.0.8:
   version "0.0.8"
-  resolved "https://registry.npmjs.org/react-client-session/-/react-client-session-0.0.8.tgz"
+  resolved "https://registry.yarnpkg.com/react-client-session/-/react-client-session-0.0.8.tgz#b5b5b5824b4d70490999adceb405dcba88de2b72"
   integrity sha512-wHCTD4lEE8mzl6kxL8viL4q5kGx2TJJNaWdvzmx3KeiMgP+Yv5/Bx476jCpPD0pKc5VvdVuhkH4EM20XqtT/sQ==
 
 react-dom@^18.2.0:

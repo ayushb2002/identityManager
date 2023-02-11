@@ -1,8 +1,7 @@
 import { React, useLayoutEffect } from 'react'
-import { ReactSession } from 'react-client-session';
+import { ReactSession } from "react-client-session";
 
 const Logout = () => {
-    ReactSession.setStoreType("localStorage");
     useLayoutEffect(() => {
       ReactSession.set('signedIn', false);
       ReactSession.set('adhaar', '');
