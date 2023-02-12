@@ -35,8 +35,7 @@ async function sendEmail(to, subject, text) {
 
 dotenv.config()
 var app = express();
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
+
 const contractAddress = process.env.CONTRACT_ADDRESS
 
 export const executeFunction = () => {

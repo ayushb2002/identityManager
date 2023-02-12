@@ -1,9 +1,7 @@
-import React from 'react'
-import { useState, useLayoutEffect } from 'react'
-import { ReactSession } from 'react-client-session';
+import React, { useState, useLayoutEffect } from 'react';
+import { ReactSession } from "react-client-session";
 
 const Navbar = () => {
-  ReactSession.setStoreType("localStorage");
 
   const [loggedIn, setLoggedIn] = useState(false);
 
@@ -27,15 +25,13 @@ const Navbar = () => {
 
   const logout = (e) => {
     e.preventDefault();
-    ReactSession.set('signedIn', false);
-    setLoggedIn(false);
-    window.location.href = '/login';
+    window.location.href = '/logout';
   }
 
   return (
     <div className="navbar bg-base-100">
   <div className="flex-1">
-    <a className="btn btn-ghost normal-case text-xl" href="/">Block ID</a>
+    <a className="btn btn-ghost normal-case text-xl" href="/">Decent ID</a>
   </div>
   <div className="flex-none">
     <ul className="menu menu-horizontal px-1">

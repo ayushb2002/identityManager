@@ -3,14 +3,12 @@ import Footer from '../components/Footer'
 import Navbar from '../components/Navbar'
 import { ethers } from "ethers";
 import { toast } from "react-hot-toast";
-import { ReactSession } from 'react-client-session';
-import { loginIdentity } from '../blockchain/interact';
+import { loginIdentity, returnEmail } from '../blockchain/interact';
+import { ReactSession } from "react-client-session";
 
 const Login = () => {
-  ReactSession.setStoreType("localStorage");
   const [wallet, setWallet] = useState('');
   const [adhaar, setAdhaar] = useState('');
-  const [pwd, setPwd] = useState('');
 
   const metaClick = async (e) => {
     e.preventDefault();
@@ -29,12 +27,13 @@ const Login = () => {
 
   const signIn = async function (e) {
     e.preventDefault();
-    var result = await loginIdentity(adhaar, pwd);
-    console.log(result);
+    var result = await loginIdentity(adhaar);
     if(result)
     {
+      var _email = await returnEmail();
+      // Process OTP here
       ReactSession.set('signedIn', true);
-      ReactSession.set('wallet', wallet);
+      ReactSession.set('adhaar', adhaar);
       toast.success('Verified credentials!');
       setTimeout(() => {
         window.location.href = '/profile';
@@ -60,7 +59,7 @@ const Login = () => {
     </div>
     <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
       <div className="card-body">
-        <form onSubmit={signIn}>
+        <form>
       <div className="form-control">
         <label className="label">
             <span className="label-text">Wallet Address</span>
@@ -74,16 +73,10 @@ const Login = () => {
           <label className="label">
             <span className="label-text">Adhaar Number</span>
           </label>
-          <input type="number" min="100000000000" placeholder="xxxx-xxxx-xxxx" className="input input-bordered" onChange={(e) => setAdhaar(e.target.value)} />
-        </div>
-        <div className="form-control">
-          <label className="label">
-            <span className="label-text">Password</span>
-          </label>
-          <input type="password" placeholder="password" className="input input-bordered" onChange={(e) => setPwd(e.target.value)} />
+          <input type="number" min="0" placeholder="xxxx-xxxx-xxxx" className="input input-bordered" onChange={(e) => setAdhaar(e.target.value)} />
         </div>
         <div className="form-control mt-6">
-          <button className="btn btn-primary" type='submit' disabled={wallet === ''? true:false}>Login</button>
+          <button className="btn btn-primary" type='button' onClick={(e) => signIn(e)} disabled={wallet === ''? true:false}>Login</button>
         </div>
         </form>
       </div>

@@ -9,17 +9,22 @@ contract Identity {
         uint256 dateOfBirth; // convert date to number of seconds and then store
         string gender;
         string emailAddress;
-        string hashedPwd;
     } // remove this structure and compare the data with response received from UIDAI API
+
+    struct SecurityQuestions {
+        string[] question;
+        string[] answer;
+    }
 
     struct Hosts
     {
         string name;
         address owner;
-        string apiKey;
+        string adhaar;
     }
 
     mapping(string => Data) adhaar;
+    mapping(string => SecurityQuestions[]) questions;
     mapping(address => string) wallet;
     mapping(string => bool) deactivated;
     mapping(string => uint256[]) humanVerified; // mapped to date when human was last verified
@@ -30,16 +35,17 @@ contract Identity {
 
     Hosts[] public allHosts;
 
-    function registerIdentity(string memory _adhaar, string memory _name, uint256 _dob, string memory _gender, string memory _email, string memory _hashedPwd) public {
+    function registerIdentity(string memory _adhaar, string memory _name, uint256 _dob, string memory _gender, string memory _email) public {
         require(!compareStrings(wallet[msg.sender], _adhaar), "Identity already exists!");
         require(adhaar[_adhaar].dateOfBirth <= 0, "Identity already exists!");
-        adhaar[_adhaar] = Data(msg.sender, _name, _dob, _gender, _email, _hashedPwd);
+        adhaar[_adhaar] = Data(msg.sender, _name, _dob, _gender, _email);
         wallet[msg.sender] = _adhaar;
     } 
 
-    function loginIdentity(string memory _adhaar) public view returns (string memory)  {
+    function loginIdentity(string memory _adhaar) public view returns (bool)  {
         require(compareStrings(wallet[msg.sender], _adhaar), "Wallet does not belong to the adhaar holder!");
-        return adhaar[_adhaar].hashedPwd;
+        require(!deactivated[_adhaar], "Adhaar has been deactivated");
+        return true;
     }
 
     function compareStrings(string memory a, string memory b) public pure returns (bool) {
@@ -87,8 +93,8 @@ contract Identity {
         require(compareStrings(wallet[msg.sender], _adhaar), "The host must be verified!");
         require(!deactivated[_adhaar], "Adhaar has been deactivated");
         require(!deactivatedHost[_key], "API has already been deactivated");
-        apiForHost[_key] = Hosts(_name, msg.sender, _key);
-        allHosts.push(Hosts(_name, msg.sender, _key));
+        apiForHost[_key] = Hosts(_name, msg.sender, _adhaar);
+        allHosts.push(Hosts(_name, msg.sender, _adhaar));
     }
 
     function isHostLinked(string memory _adhaar, string memory _key) public view returns (bool)
@@ -165,5 +171,33 @@ contract Identity {
 
         deactivatedHost[_key] = true;
     }
+
+    function registerSecurityQuestions(string memory _adhaar, string[] memory _questions, string[] memory _answers) public 
+    {
+        require(compareStrings(wallet[msg.sender], _adhaar));
+        require(!deactivated[_adhaar], "Adhaar has been deactivated");
+        questions[_adhaar].push(SecurityQuestions(_questions, _answers));
+    }
+
+    function returnSecurityQuestions(string memory _adhaar) public view returns (SecurityQuestions memory)
+    {
+        require(compareStrings(wallet[msg.sender], _adhaar));
+        require(!deactivated[_adhaar], "Adhaar has been deactivated");
+        return questions[_adhaar][questions[_adhaar].length - 1];
+    }
+
+    function returnEmailAddress() public view returns (string memory)
+    {
+        string memory _adhaar = wallet[msg.sender];
+        string memory _email = adhaar[_adhaar].emailAddress;
+        return _email;
+    }
+
+    function matchAPIKey(string memory _adhaar, string memory _key) public view returns (bool)
+    {
+        require(!deactivated[_adhaar], "Adhaar has been deactivated");
+        require(!deactivatedHost[_key], "API has already been deactivated");
+        return compareStrings(apiForHost[_key].adhaar, _adhaar); 
+    } 
 
 }

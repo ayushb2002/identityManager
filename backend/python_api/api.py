@@ -25,10 +25,11 @@ def aadhar_verify():
     gender=request.form.get('gender')
     # dob=request.form.get('dob')
     # pwd=request.form.get('pwd')
-    
+    print('request =',name,aadhaar,gender)
     res=str(aadhar_check(pipeline,imagefilepath,name,aadhaar,gender))
+    print(res)
     print("Done")
-    return res
+    return jsonify(res)
 
 @app.route("/face_match",methods = ['POST'])
 def face_match():
