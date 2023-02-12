@@ -44,6 +44,7 @@ contract Identity {
 
     function loginIdentity(string memory _adhaar) public view returns (bool)  {
         require(compareStrings(wallet[msg.sender], _adhaar), "Wallet does not belong to the adhaar holder!");
+        require(!deactivated[_adhaar], "Adhaar has been deactivated");
         return true;
     }
 
