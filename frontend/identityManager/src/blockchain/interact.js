@@ -139,3 +139,47 @@ export const saveIDCard = async (_adhaar) => {
         return false;
     }
 }
+
+export const registerQuestions = async (_adhaar, _questions, _answers) => {
+    const contract = executeFunction();
+    _adhaar = toString(_adhaar);
+    try
+    {
+        const txn = await contract.registerSecurityQuestions(_adhaar, _questions, _answers);
+        txn.wait(1);
+        return true;
+    }catch(err)
+    {
+        console.log(err);
+        return false;
+    }
+}
+
+export const returnQuestions = async (_adhaar) => {
+    const contract = executeFunction();
+    _adhaar = toString(_adhaar);
+    try
+    {
+        const questionAnswers = await contract.returnSecurityQuestions(_adhaar);
+        return questionAnswers;
+    }catch(err)
+    {
+        console.log(err);
+        return false;
+    }
+}
+
+export const deactivate = async (_adhaar) => {
+    const contract = executeFunction();
+    _adhaar = toString(_adhaar);
+    try
+    {
+        const txn = await contract.deactivate(_adhaar);
+        txn.wait(1);
+        return true;
+    }catch(err)
+    {
+        console.log(err);
+        return false;
+    }
+}

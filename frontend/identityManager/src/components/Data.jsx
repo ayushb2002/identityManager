@@ -8,7 +8,7 @@ const Data = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [gender, setGender] = useState("");
-    const [dob, setDob] = useState(0);
+    const [dob, setDob] = useState("");
     const [adhaar, setAdhaar] = useState(ReactSession.get('adhaar'));
 
     useLayoutEffect(() => {
@@ -18,7 +18,10 @@ const Data = () => {
             setName(identity[1]);
             setGender(identity[3]);
             setEmail(identity[4]);
-            setDob(parseInt(identity[2]));
+            var date = new Date(1970, 0, 1);
+            date.setSeconds(identity[2]);
+            var strDate = `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}`;
+            setDob(strDate);
           } catch (err) {
             console.log(err);
             toast.error("Could not find your identity!");
