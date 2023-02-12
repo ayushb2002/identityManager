@@ -10,4 +10,3 @@ def face_match(f1="v2.jpg",f2="v1.jpg"):
     except:
         return {'match':False, 'message': 'Can\'t identify human!'}
     
-print(face_match())
