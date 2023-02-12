@@ -20,7 +20,7 @@ contract Identity {
     {
         string name;
         address owner;
-        string apiKey;
+        string adhaar;
     }
 
     mapping(string => Data) adhaar;
@@ -93,8 +93,8 @@ contract Identity {
         require(compareStrings(wallet[msg.sender], _adhaar), "The host must be verified!");
         require(!deactivated[_adhaar], "Adhaar has been deactivated");
         require(!deactivatedHost[_key], "API has already been deactivated");
-        apiForHost[_key] = Hosts(_name, msg.sender, _key);
-        allHosts.push(Hosts(_name, msg.sender, _key));
+        apiForHost[_key] = Hosts(_name, msg.sender, _adhaar);
+        allHosts.push(Hosts(_name, msg.sender, _adhaar));
     }
 
     function isHostLinked(string memory _adhaar, string memory _key) public view returns (bool)
@@ -192,5 +192,12 @@ contract Identity {
         string memory _email = adhaar[_adhaar].emailAddress;
         return _email;
     }
+
+    function matchAPIKey(string memory _adhaar, string memory _key) public view returns (bool)
+    {
+        require(!deactivated[_adhaar], "Adhaar has been deactivated");
+        require(!deactivatedHost[_key], "API has already been deactivated");
+        return compareStrings(apiForHost[_key].adhaar, _adhaar); 
+    } 
 
 }

@@ -201,3 +201,36 @@ export const registerBusiness = async (_adhaar, _name, _passphrase) => {
         return false;
     }
 }
+
+export const matchAPIKey = async (_adhaar, _passphrase) => {
+    const contract = executeFunction();
+    _adhaar = toString(_adhaar);
+    const _key = bcrypt.hashSync(_passphrase, salt);
+    try
+    {
+        const result = await contract.matchAPIKey(_adhaar, _key);
+        return result;
+    }
+    catch(err)
+    {
+        console.log(err);
+        return false;
+    }
+}
+
+export const deactivateBusiness = async (_adhaar, _passphrase) => {
+    const contract = executeFunction();
+    _adhaar = toString(_adhaar);
+    const _key = bcrypt.hashSync(_passphrase, salt);
+    try
+    {
+        const txn = await contract.deactivateHost(_adhaar, _key);
+        txn.wait(1);
+        return true;
+    }
+    catch(err)
+    {
+        console.log(err);
+        return false;
+    }
+}
