@@ -38,7 +38,8 @@ const Register = () => {
     };
     var adhaarVerify = await fetch("http://127.0.0.1:5000/aadhar_verify", options);
     console.log(adhaarVerify);
-    return adhaarVerify;
+    var res = await adhaarVerify.json()
+    return res;
   }
 
   const registration = async (e) => {
@@ -54,8 +55,9 @@ const Register = () => {
     formData.append("gender", gender);
     formData.append("dob", dob);
 
-    // var adhaarVerify = await adhaarVerifyCall(formData);
-    var adhaarVerify = 'True';
+    var adhaarVerify = await adhaarVerifyCall(formData);
+
+    console.log(adhaarVerify)
     if (adhaarVerify==='True'){
       var result = await registerIdentity(adhaar, name, dob, gender, email);
       if (result) {

@@ -1,7 +1,9 @@
 def gender(data):
     for x in data:
         if x[0].lower()=="male":
+            print('male',end=', ')
             return 'male'
+    print('female',end=', ')
     return 'female'
 
 def name_check(name,data):
@@ -10,7 +12,9 @@ def name_check(name,data):
     for i in range(len(datatemp)-len(name)):
         # print(datatemp[i:i+len(name)])
         if sorted(datatemp[i:i+len(name)])==name:
+            print('name True',end=', ')
             return True
+    print('name False',end=', ')
     return False
 
 def phone_number(data):
@@ -33,9 +37,10 @@ def get_aadhar(data):
                 aadhar.append(x)
             except:
                 pass
-    aadhar.sort(key=lambda x: (x[1][0][1]),reverse=True)
+    aadhar.sort(key=lambda x: (x[1][0][0]))
     # print(aadhar)
-    return ' '.join([x[0] for x in aadhar])
+    print(''.join([x[0] for x in aadhar]))
+    return ''.join([x[0] for x in aadhar])
 
 def aadhar_check(pipeline,path,name,aadhaar,g):
     import keras_ocr
