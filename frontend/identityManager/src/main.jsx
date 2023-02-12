@@ -14,6 +14,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Welcome from './pages/Welcome';
 import Logout from './components/Logout';
+import RegisterBusiness from './api/RegisterBusiness';
 import { ReactSession } from "react-client-session";
 
 ReactSession.setStoreType("sessionStorage");
@@ -58,6 +59,11 @@ const router = createBrowserRouter([
     element: <Logout />,
     errorElement: <Error />
   },
+  {
+    path: '/business',
+    element: <RegisterBusiness />,
+    errorElement: <Error />
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(

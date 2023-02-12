@@ -16,10 +16,10 @@ const SecurityQuestions = () => {
       const questObj = await returnQuestions(adhaar);
       if (questObj) {
         setData(true);
-        setQ1(questObj[0][0]);
-        setQ2(questObj[0][1]);
-        setA1(questObj[1][0]);
-        setA2(questObj[1][1]);
+        setQ1(questObj[0]);
+        setQ2(questObj[1]);
+        setA1('********');
+        setA2('********');
       } else {
         setData(false);
       }

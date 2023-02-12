@@ -18,7 +18,7 @@ const Data = () => {
             setName(identity[1]);
             setGender(identity[3]);
             setEmail(identity[4]);
-            var date = new Date(1970, 0, 1);
+            var date = new Date(1970, 1, 1);
             date.setSeconds(identity[2]);
             var strDate = `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}`;
             setDob(strDate);
