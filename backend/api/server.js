@@ -1,10 +1,10 @@
-import abi from './Identity.json';
-var ethers = require('ethers');
-var express = require('express');
-var cors = require('cors');
+import abi from './Identity.json' assert { type: "json" };
+import ethers from 'ethers'
+import express from 'express'
+import cors from 'cors'
+import * as dotenv from 'dotenv'
+dotenv.config()
 var app = express();
-require('dotenv').config();
-
 const contractAddress = process.env.CONTRACT_ADDRESS
 
 export const executeFunction = () => {
