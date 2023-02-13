@@ -3,6 +3,7 @@ import Footer from '../components/Footer'
 import Navbar from '../components/Navbar'
 import { ethers } from "ethers";
 import { toast } from "react-hot-toast";
+import { useRef } from "react";
 import { registerIdentity } from "../blockchain/interact";
 
 const Register = () => {
@@ -14,6 +15,7 @@ const Register = () => {
   const [gender, setGender] = useState('');
   const [dob, setDob] = useState(0);
   const [curReg, setCurReg] = useState(0);
+  const otpRef = useRef();
   const metaClick = async (e) => {
     e.preventDefault();
     try {
@@ -67,29 +69,29 @@ const Register = () => {
     formData.append("gender", gender);
     formData.append("dob", dob);
 
-    var adhaarVerify = await adhaarVerifyCall(formData);
-
+    // var adhaarVerify = await adhaarVerifyCall(formData);
+    let adhaarVerify = "True";
     console.log(adhaarVerify)
-    if (adhaarVerify==='True'){
+    if (adhaarVerify === 'True') {
       setCurReg(1);
       // var emailVerify = await verifyOTP();
-      if (emailVerify === 'True'){
-        var result = await registerIdentity(adhaar, name, dob, gender, email);
-        if (result) {
-          toast.success('Your identity has been registered!');
-          setTimeout(() => {
-            window.location.href = "/login";
-          }, 1000);
-        }
-        else {
-          toast.error('Could not register your identity!');
-          setTimeout(() => {
-            window.location.reload();
-          }, 1000);
-        }
-      }
+      // if (emailVerify === 'True'){
+      //   var result = await registerIdentity(adhaar, name, dob, gender, email);
+      //   if (result) {
+      //     toast.success('Your identity has been registered!');
+      //     setTimeout(() => {
+      //       window.location.href = "/login";
+      //     }, 1000);
+      //   }
+      //   else {
+      //     toast.error('Could not register your identity!');
+      //     setTimeout(() => {
+      //       window.location.reload();
+      //     }, 1000);
+      //   }
+      // }
     }
-    else{
+    else {
       toast.error("Aadhaar couldn't be verified!");
       setTimeout(() => {
         window.location.reload();
@@ -108,56 +110,81 @@ const Register = () => {
           </div>
           <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
             <div className="card-body">
-              <form onSubmit={registration}>
-                <div className="form-control">
-                  <label className="label">
-                    <span className="label-text">Wallet Address</span>
-                  </label>
-                  <button className="btn btn-secondary" onClick={metaClick} disabled={wallet !== '' ? true : false}>
-                    {wallet === '' && (<span>Connect Metamask</span>)}
-                    {wallet !== '' && (<span>{wallet.substring(0, 20)}...</span>)}
-                  </button>
-                </div>
-                <div className="form-control">
-                  <label className="label">
-                    <span className="label-text">Adhaar Card</span>
-                  </label>
-                  <input type="file" id="aadhaar_image" className="file-input file-input-ghost file-input-bordered" />
-                </div>
-                <div className="form-control">
-                  <label className="label">
-                    <span className="label-text">Adhaar Card Number</span>
-                  </label>
-                  <input type="number" min="0" placeholder="xxxx xxxx xxxx" className="input input-bordered" onChange={(e) => setAdhaar(e.target.value)} />
-                </div>
-                <div className="form-control">
-                  <label className="label">
-                    <span className="label-text">Full Name</span>
-                  </label>
-                  <input type="text" placeholder="Name" className="input input-bordered" onChange={(e) => setName(e.target.value)} />
-                </div>
-                <div className="form-control">
-                  <label className="label">
-                    <span className="label-text">Email Address</span>
-                  </label>
-                  <input type="email" placeholder="Email" className="input input-bordered" onChange={(e) => setEmail(e.target.value)} />
-                </div>
-                <div className="form-control">
-                  <label className="label">
-                    <span className="label-text">Gender</span>
-                  </label>
-                  <input type="text" placeholder="Male / Female" className="input input-bordered" onChange={(e) => setGender(e.target.value)} />
-                </div>
-                <div className="form-control">
-                  <label className="label">
-                    <span className="label-text">Date of birth</span>
-                  </label>
-                  <input type="date" className="input input-bordered" onChange={(e) => setDob(e.target.value)} />
-                </div>
-                <div className="form-control mt-6">
-                  <button className="btn btn-primary" type="submit" disabled={wallet !== '' ? false : true}>Register</button>
-                </div>
-              </form>
+              {
+                !curReg ?
+                  <form onSubmit={registration}>
+                    <div className="form-control">
+                      <label className="label">
+                        <span className="label-text">Wallet Address</span>
+                      </label>
+                      <button className="btn btn-secondary" onClick={metaClick} disabled={wallet !== '' ? true : false}>
+                        {wallet === '' && (<span>Connect Metamask</span>)}
+                        {wallet !== '' && (<span>{wallet.substring(0, 20)}...</span>)}
+                      </button>
+                    </div>
+                    <div className="form-control">
+                      <label className="label">
+                        <span className="label-text">Adhaar Card</span>
+                      </label>
+                      <input type="file" id="aadhaar_image" className="file-input file-input-ghost file-input-bordered" />
+                    </div>
+                    <div className="form-control">
+                      <label className="label">
+                        <span className="label-text">Adhaar Card Number</span>
+                      </label>
+                      <input type="number" min="0" placeholder="xxxx xxxx xxxx" className="input input-bordered" onChange={(e) => setAdhaar(e.target.value)} />
+                    </div>
+                    <div className="form-control">
+                      <label className="label">
+                        <span className="label-text">Full Name</span>
+                      </label>
+                      <input type="text" placeholder="Name" className="input input-bordered" onChange={(e) => setName(e.target.value)} />
+                    </div>
+                    <div className="form-control">
+                      <label className="label">
+                        <span className="label-text">Email Address</span>
+                      </label>
+                      <input type="email" placeholder="Email" className="input input-bordered" onChange={(e) => setEmail(e.target.value)} />
+                    </div>
+                    <div className="form-control">
+                      <label className="label">
+                        <span className="label-text">Gender</span>
+                      </label>
+                      <input type="text" placeholder="Male / Female" className="input input-bordered" onChange={(e) => setGender(e.target.value)} />
+                    </div>
+                    <div className="form-control">
+                      <label className="label">
+                        <span className="label-text">Date of birth</span>
+                      </label>
+                      <input type="date" className="input input-bordered" onChange={(e) => setDob(e.target.value)} />
+                    </div>
+                    <div className="form-control mt-6">
+                      <button className="btn btn-primary" type="submit" disabled={wallet !== '' ? false : true}>Register</button>
+                    </div>
+                  </form>
+                  :
+                  <>
+                    <div className="form-control">
+                        <h1 className="text-xl ">
+                          We have sent you an otp to you email address, enter that otp to verify your email
+                          </h1>
+                      <input type="number" placeholder="OTP" className="input input-bordered mt-6" ref={otpRef}/>
+                      <div className="form-control mt-6">
+                        <button className="btn btn-primary" onClick={async ()=>{
+                          // let res = await fetch("url");
+                        }}>resend otp</button>
+                      </div>
+                      <div className="form-control mt-6">
+                        <button className="btn btn-primary"  onClick={async ()=>{
+                          let val = otpRef.current.value;
+                          // await fetch("")
+                          console.log(val);
+                        }}>Verify</button>
+                      </div>
+                    </div>
+                  </>
+              }
+
             </div>
           </div>
         </div>
