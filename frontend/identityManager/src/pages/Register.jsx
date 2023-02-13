@@ -13,7 +13,7 @@ const Register = () => {
   const [email, setEmail] = useState('');
   const [gender, setGender] = useState('');
   const [dob, setDob] = useState(0);
-
+  const [curReg, setCurReg] = useState(0);
   const metaClick = async (e) => {
     e.preventDefault();
     try {
@@ -41,7 +41,19 @@ const Register = () => {
     var res = await adhaarVerify.json()
     return res;
   }
+  // const verifyOTP = async () => {
+  //   const options = {
+  //     method: "POST",
+  //     // mode:'cors',
+  //     // credentials:'same-origin',
 
+  //     body: formData,
+  //   };
+  //   var adhaarVerify = await fetch("http://127.0.0.1:5000/aadhar_verify", options);
+  //   console.log(adhaarVerify);
+  //   var res = await adhaarVerify.json()
+  //   return res;
+  // }
   const registration = async (e) => {
     e.preventDefault();
     const fileInput = document.querySelector("#aadhaar_image");
@@ -59,18 +71,22 @@ const Register = () => {
 
     console.log(adhaarVerify)
     if (adhaarVerify==='True'){
-      var result = await registerIdentity(adhaar, name, dob, gender, email);
-      if (result) {
-        toast.success('Your identity has been registered!');
-        setTimeout(() => {
-          window.location.href = "/login";
-        }, 1000);
-      }
-      else {
-        toast.error('Could not register your identity!');
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
+      setCurReg(1);
+      // var emailVerify = await verifyOTP();
+      if (emailVerify === 'True'){
+        var result = await registerIdentity(adhaar, name, dob, gender, email);
+        if (result) {
+          toast.success('Your identity has been registered!');
+          setTimeout(() => {
+            window.location.href = "/login";
+          }, 1000);
+        }
+        else {
+          toast.error('Could not register your identity!');
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }
       }
     }
     else{
