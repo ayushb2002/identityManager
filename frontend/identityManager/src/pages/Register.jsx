@@ -5,6 +5,7 @@ import { ethers } from "ethers";
 import { toast } from "react-hot-toast";
 import { useRef } from "react";
 import { registerIdentity } from "../blockchain/interact";
+import axios from "axios";
 
 const Register = () => {
 
@@ -69,27 +70,15 @@ const Register = () => {
     formData.append("gender", gender);
     formData.append("dob", dob);
 
-    // var adhaarVerify = await adhaarVerifyCall(formData);
-    let adhaarVerify = "True";
+    var adhaarVerify = await adhaarVerifyCall(formData);
+    // let adhaarVerify = "True";
     console.log(adhaarVerify)
     if (adhaarVerify === 'True') {
+      var response = await axios.post("http://127.0.0.1:5001/send_email_verification", {
+        "email": email
+      });
+      console.log(response)
       setCurReg(1);
-      // var emailVerify = await verifyOTP();
-      // if (emailVerify === 'True'){
-      //   var result = await registerIdentity(adhaar, name, dob, gender, email);
-      //   if (result) {
-      //     toast.success('Your identity has been registered!');
-      //     setTimeout(() => {
-      //       window.location.href = "/login";
-      //     }, 1000);
-      //   }
-      //   else {
-      //     toast.error('Could not register your identity!');
-      //     setTimeout(() => {
-      //       window.location.reload();
-      //     }, 1000);
-      //   }
-      // }
     }
     else {
       toast.error("Aadhaar couldn't be verified!");
@@ -171,14 +160,38 @@ const Register = () => {
                       <input type="number" placeholder="OTP" className="input input-bordered mt-6" ref={otpRef}/>
                       <div className="form-control mt-6">
                         <button className="btn btn-primary" onClick={async ()=>{
-                          // let res = await fetch("url");
+                          var response = await axios.post("http://127.0.0.1:5001/send_email_verification", {
+                            "email": email
+                          });
+                          console.log(response)
+                          
                         }}>resend otp</button>
                       </div>
                       <div className="form-control mt-6">
                         <button className="btn btn-primary"  onClick={async ()=>{
                           let val = otpRef.current.value;
-                          // await fetch("")
+                          var response = await axios.post("http://127.0.0.1:5001/check_verification_code", {
+                            "email": email,
+                            "otp": val
+                          });
                           console.log(val);
+                          var emailVerify = response.data.res;
+                          if (emailVerify){
+                            var result = await registerIdentity(adhaar, name, dob, gender, email);
+                            if (result) {
+                              toast.success('Your identity has been registered!');
+                              setTimeout(() => {
+                                window.location.href = "/login";
+                              }, 1000);
+                            }
+                            else {
+                              toast.error('Could not register your identity!');
+                              setTimeout(() => {
+                                window.location.reload();
+                              }, 1000);
+                            }
+                          }
+                          console.log(emailVerify);
                         }}>Verify</button>
                       </div>
                     </div>

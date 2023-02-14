@@ -6,6 +6,7 @@ import * as dotenv from 'dotenv'
 import bodyParser from 'body-parser';
 import nodemailer from "nodemailer";
 
+
 async function sendEmail(to, subject, text) {
 
     let testAccount = await nodemailer.createTestAccount();
@@ -46,13 +47,16 @@ export const executeFunction = () => {
 };
 
 
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors())
+app.use(express.json());
+
 
 let otpDir = new Map();
 
 
 app.listen(5001, function () {
-    console.log('CORS-enabled web server listening on port 5000');
+    console.log('CORS-enabled web server listening on port 5001');
 });
 
 app.get('/', cors(), function (req, res, next) {
@@ -79,25 +83,27 @@ function getOtp(){
 }
 
 app.post('/send_email_verification', cors(), async (req, res) => {
+    console.log(req.body.email.toString())
+    var email = req.body.email.toString();
     let otp = getOtp();
     while(otpDir.has(otp)){
         otp = getOtp();
     }
     otpDir.set(otp,req.body["email"]);
-    await sendEmail('yathansh@gmail.com', 'otp', `your otp is ${otp}`);
+    await sendEmail(email, 'otp', `your otp is ${otp}`);
     res.json({ res: "code_sent" });
 })
 
-app.post('/check_verification_code/:code', cors(), async (req, res) => {
-    let otp = req.body["otp"];
-    let email = req.body["email"]
+app.post('/check_verification_code', cors(), async (req, res) => {
+    let otp = req.body.otp.toString();
+    let email = req.body.email.toString();
     if(!otpDir.has(otp) || otpDir.get(otp) != email)
     {
         res.status(400)
-        res.json({"res":"error"})
+        res.json({"res":false})
     }
     else{
         otpDir.delete(otp);
-        res.json({"res":"success"})
+        res.json({"res":true})
     }
 })
