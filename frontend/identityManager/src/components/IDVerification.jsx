@@ -2,10 +2,10 @@ import React, {useState, useLayoutEffect} from 'react';
 import {ReactSession} from 'react-client-session';
 import { lastIDVerified, saveIDCard } from '../blockchain/interact';
 import { toast } from 'react-hot-toast';
-
+import Weebcam from './Webcam';
 const IDVerification = () => {
     const [verified, setVerified] = useState(0);
-
+    const [image,setImage] = React.useState(null);
     useLayoutEffect(() => {
       (async () => {
         try
@@ -76,6 +76,7 @@ const IDVerification = () => {
             <button type='button' className='btn btn-primary w-[20vw] mx-auto m-5' onClick={verifyID}>Start ID verification</button>
             </>
         )}
+        <Weebcam image={image} setImage={setImage}/>
     </div>
   )
 }
