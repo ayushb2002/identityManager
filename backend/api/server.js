@@ -131,6 +131,17 @@ async function matchSecurityAnswers (_adhaar, _answers, _signer) {
     }
 }
 
+async function returnEmail (_signer) {
+    const contract = new ethers.Contract(contractAddress, abi.abi, _signer);
+    try {
+        const email = await contract.returnEmailAddress();
+        return email;
+    } catch (err) {
+        console.log(err);
+        return false;
+    }
+}
+
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors())
@@ -186,6 +197,8 @@ app.post('/login_step_1', cors(), async (req, res) => {
         res.send({"error": "User details incorrect!"});
         return;
     }
+
+    var email = await returnEmail(signer);
 
     // Generate OTP and send to email
 
