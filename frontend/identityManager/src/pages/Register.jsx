@@ -6,7 +6,7 @@ import { toast } from "react-hot-toast";
 import { useRef } from "react";
 import { registerIdentity } from "../blockchain/interact";
 import axios from "axios";
-import ReCAPTCHA from 'react-google-recaptcha'
+
 import HCaptcha from "@hcaptcha/react-hcaptcha"
 
 const Register = () => {
@@ -105,12 +105,6 @@ const Register = () => {
                 !curReg ?
                   <form onSubmit={registration}>
                     <div className="form-control">
-                        <HCaptcha 
-                          sitekey="02244d1f-f502-4888-ae7e-91095c76d3fb"
-                          // onVerify={token => {}}
-                        />
-
-                        {/* </HCaptcha> */}
                       <label className="label">
                         <span className="label-text">Wallet Address</span>
                       </label>
