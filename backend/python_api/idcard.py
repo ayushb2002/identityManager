@@ -7,6 +7,7 @@ def gender(data):
     return 'female'
 
 def name_check(name,data):
+    name=name.lower()
     name=sorted(list(name.split()))
     datatemp=[x[0] for x in data]
     for i in range(len(datatemp)-len(name)):

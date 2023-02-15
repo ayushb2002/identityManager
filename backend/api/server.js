@@ -19,18 +19,15 @@ function generateString(length) {
 }
 
 async function sendEmail(to, subject, text) {
-
-    let testAccount = await nodemailer.createTestAccount();
-
-
+    
+    var pwd = process.env.EMAIL_PASSWORD;
     let transporter = nodemailer.createTransport({
         host: "smtp-mail.outlook.com",
         auth: {
             user: "eth4all@outlook.com",
-            pass: process.env.EMAIL_PASSWORD
+            pass: pwd,
         }
     });
-
 
     let info = await transporter.sendMail({
         from: "eth4all@outlook.com",

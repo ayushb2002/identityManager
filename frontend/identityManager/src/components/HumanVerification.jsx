@@ -73,12 +73,12 @@ const HumanVerification = () => {
             {verified <= 0 && (
                 <>
                     <p className='px-10'>Human verification pending! Complete this to enable usage of identity across platforms.</p>
-                        
+                        <div style={{display:'flex',justifyContent:'center',alignItems:'center',padding:'2%',marginTop:'3%'}}>
                         <HCaptcha  theme='dark'
                             sitekey="02244d1f-f502-4888-ae7e-91095c76d3fb"
                             onVerify={token => { setHVerified(1) }}
                         />
-                    
+                        </div>
                     <button type='button' className='btn btn-primary w-[20vw] mx-auto m-5' onClick={verifyHuman}>Start human verification</button>
 
                 </>
