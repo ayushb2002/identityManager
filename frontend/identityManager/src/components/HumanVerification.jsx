@@ -2,6 +2,7 @@ import React, {useState, useLayoutEffect} from 'react'
 import {ReactSession} from 'react-client-session';
 import { toast } from 'react-hot-toast';
 import { lastHumanVerified, saveHumanVerification } from '../blockchain/interact';
+
 const HumanVerification = () => {
 
     const [verified, setVerified] = useState(0);
