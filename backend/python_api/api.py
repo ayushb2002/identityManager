@@ -3,6 +3,7 @@ from flask_cors import CORS, cross_origin
 from idcard import * 
 from face_recog import *
 import keras_ocr
+import base64
 
 pipeline = keras_ocr.pipeline.Pipeline(scale=2)
 
@@ -32,18 +33,21 @@ def aadhar_verify():
     return jsonify(res)
 
 @app.route("/face_match",methods = ['POST'])
-def face_match():
+def face_match_api():
     print('Started')
-    imagefile=request.files.get('file')
+    imagefile=request.files.get('image2')
     imagefile.save(imagefile.filename)
     imagefilepath=imagefile.filename
 
-    imagefile2=request.files.get('file2')
-    imagefile2.save(imagefile2.filename)
-    imagefilepath2=imagefile2.filename
+    imagefile2=request.form.get('image1')
+    with open('temp.jpg','wb') as f:
+        i = bytes(imagefile2[23::],"ascii")
+        f.write(base64.decodebytes(i))
+    # imagefile2.save(imagefile2.filename)
+    # imagefilepath2=imagefile2.filename
 
     print('Done')
-    return jsonify(face_match(imagefilepath,imagefilepath2))
+    return jsonify(face_match(imagefilepath,"temp.jpg"))
 # Adhaar, Wallet -> If this identity exists and belongs to the user (true) otherwise false
 # If true, we send otp to the owner's mail address
 # Website POST OTP -> Otp verified -> Logged in (true) else false
