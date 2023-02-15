@@ -30,7 +30,7 @@ export const registerIdentity = async (_adhaar, _name, _dob, _gender, _email) =>
     }
 };
 
-export const loginIdentity = async (_adhaar, _pwd) => {
+export const loginIdentity = async (_adhaar) => {
     const contract = executeFunction();
     try {
         _adhaar = toString(_adhaar);
