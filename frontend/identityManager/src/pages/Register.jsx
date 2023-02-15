@@ -7,6 +7,8 @@ import { useRef } from "react";
 import { registerIdentity } from "../blockchain/interact";
 import axios from "axios";
 
+import HCaptcha from "@hcaptcha/react-hcaptcha"
+
 const Register = () => {
 
   const [wallet, setWallet] = useState('');
@@ -154,21 +156,21 @@ const Register = () => {
                   :
                   <>
                     <div className="form-control">
-                        <h1 className="text-xl ">
-                          We have sent you an otp to you email address, enter that otp to verify your email
-                          </h1>
-                      <input type="number" placeholder="OTP" className="input input-bordered mt-6" ref={otpRef}/>
+                      <h1 className="text-xl ">
+                        We have sent you an otp to you email address, enter that otp to verify your email
+                      </h1>
+                      <input type="number" placeholder="OTP" className="input input-bordered mt-6" ref={otpRef} />
                       <div className="form-control mt-6">
-                        <button className="btn btn-primary" onClick={async ()=>{
+                        <button className="btn btn-primary" onClick={async () => {
                           var response = await axios.post("http://127.0.0.1:5001/send_email_verification", {
                             "email": email
                           });
                           console.log(response)
-                          
+
                         }}>resend otp</button>
                       </div>
                       <div className="form-control mt-6">
-                        <button className="btn btn-primary"  onClick={async ()=>{
+                        <button className="btn btn-primary" onClick={async () => {
                           let val = otpRef.current.value;
                           var response = await axios.post("http://127.0.0.1:5001/check_verification_code", {
                             "email": email,
@@ -176,7 +178,7 @@ const Register = () => {
                           });
                           console.log(val);
                           var emailVerify = response.data.res;
-                          if (emailVerify){
+                          if (emailVerify) {
                             var result = await registerIdentity(adhaar, name, dob, gender, email);
                             if (result) {
                               toast.success('Your identity has been registered!');
