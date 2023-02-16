@@ -198,6 +198,12 @@ app.post('/login_step_1', cors(), async (req, res) => {
     var email = await returnEmail(signer);
 
     // Generate OTP and send to email
+    let otp = getOtp();
+    while(otpDir.has(otp)){
+        otp = getOtp();
+    }
+    otpDir.set(otp,req.body["email"]);
+    await sendEmail(email, 'otp', `your otp is ${otp}`);
 
     res.send({"Success": "OTP has been sent to the user."});
     return;
