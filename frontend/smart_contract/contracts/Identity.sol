@@ -80,12 +80,24 @@ contract Identity {
         return idCardVerified[_adhaar][idCardVerified[_adhaar].length - 1];
     }
 
-    function linkAHost(string memory _adhaar, string memory _key) public 
+    function linkAHost(string memory _adhaar, string memory _key) public
     {
         require(compareStrings(wallet[msg.sender], _adhaar));
         require(!deactivatedHost[_key], "API has already been deactivated");
         require(!deactivated[_adhaar], "Adhaar has been deactivated");
-        linkedHosts[_adhaar].push(_key);
+        bool flag = false;
+        for(uint256 i=0;i<linkedHosts[_adhaar].length; i++)
+        {
+            if(compareStrings(linkedHosts[_adhaar][i], _key))
+            {
+                flag = true;
+            }
+        }
+
+        if(!flag)
+        {
+            linkedHosts[_adhaar].push(_key);
+        }
     }
 
     function generateAPIKeyForHost(string memory _adhaar, string memory _name, string memory _key) public // host's adhaar needed
