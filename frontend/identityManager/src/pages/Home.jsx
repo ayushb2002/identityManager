@@ -16,7 +16,7 @@ const Home = () => {
           <div>
             <h1 className="text-5xl font-bold">Decent ID</h1>
             <p className="py-6">
-            The cent-erpiece of decentralized identification.
+            Unlock Your Digital Identity with Our Decentralized Verification Center
             </p>
             <a href="/register"><button className="btn btn-primary">Get Started</button></a>
           </div>
