@@ -46,11 +46,11 @@ def face_match_api():
         f.write(base64.decodebytes(i))
     # imagefile2.save(imagefile2.filename)
     # imagefilepath2=imagefile2.filename
-
+    res = jsonify(face_match(imagefilepath,"temp.jpg"))
     print('Done')
     os.remove(imagefilepath)
     os.remove('temp.jpg')
-    return jsonify(face_match(imagefilepath,"temp.jpg"))
+    return res
 # Adhaar, Wallet -> If this identity exists and belongs to the user (true) otherwise false
 # If true, we send otp to the owner's mail address
 # Website POST OTP -> Otp verified -> Logged in (true) else false
