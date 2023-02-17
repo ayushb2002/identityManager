@@ -35,7 +35,7 @@ async function sendEmail(to, subject, text) {
     });
 
     let info = await transporter.sendMail({
-        from: "eth4all@outlook.com",
+        from: "decentid@outlook.com",
         to: to,
         subject: subject,
         text: text,
