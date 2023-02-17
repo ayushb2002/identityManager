@@ -1,12 +1,17 @@
-import abi from './Identity.json' assert { type: "json" };
+//import abi from './Identity.json' assert { type: "json" };
 import ethers from 'ethers'
 import express from 'express'
 import cors from 'cors'
 import * as dotenv from 'dotenv'
 import bodyParser from 'body-parser';
 import nodemailer from "nodemailer";
-
+import * as fs from "fs";
 const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+const loadJSON = (path) => JSON.parse(fs.readFileSync(new URL(path, import.meta.url)));
+
+const json = loadJSON('./Identity.json');
+const abi = json.abi 
 
 function generateString(length) {
     let result = ' ';
