@@ -4,7 +4,7 @@ from idcard import *
 from face_recog import *
 import keras_ocr
 import base64
-
+import os
 pipeline = keras_ocr.pipeline.Pipeline(scale=2)
 
 app = Flask(__name__)
@@ -30,6 +30,7 @@ def aadhar_verify():
     res=str(aadhar_check(pipeline,imagefilepath,name,aadhaar,gender))
     print(res)
     print("Done")
+    os.remove(imagefilepath)
     return jsonify(res)
 
 @app.route("/face_match",methods = ['POST'])
@@ -45,9 +46,11 @@ def face_match_api():
         f.write(base64.decodebytes(i))
     # imagefile2.save(imagefile2.filename)
     # imagefilepath2=imagefile2.filename
-
+    res = jsonify(face_match(imagefilepath,"temp.jpg"))
     print('Done')
-    return jsonify(face_match(imagefilepath,"temp.jpg"))
+    os.remove(imagefilepath)
+    os.remove('temp.jpg')
+    return res
 # Adhaar, Wallet -> If this identity exists and belongs to the user (true) otherwise false
 # If true, we send otp to the owner's mail address
 # Website POST OTP -> Otp verified -> Logged in (true) else false
