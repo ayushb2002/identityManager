@@ -29,7 +29,7 @@ async function sendEmail(to, subject, text) {
     let transporter = nodemailer.createTransport({
         host: "smtp-mail.outlook.com",
         auth: {
-            user: "eth4all@outlook.com",
+            user: "decentid@outlook.com",
             pass: pwd,
         }
     });
