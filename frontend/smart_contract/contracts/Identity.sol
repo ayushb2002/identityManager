@@ -36,8 +36,7 @@ contract Identity {
     Hosts[] public allHosts;
 
     function registerIdentity(string memory _adhaar, string memory _name, uint256 _dob, string memory _gender, string memory _email) public {
-        require(!compareStrings(wallet[msg.sender], _adhaar), "Identity already exists!");
-        require(adhaar[_adhaar].dateOfBirth <= 0, "Identity already exists!");
+        require(!deactivated[_adhaar], "Adhaar has been deactivated");
         adhaar[_adhaar] = Data(msg.sender, _name, _dob, _gender, _email);
         wallet[msg.sender] = _adhaar;
     } 

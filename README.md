@@ -2,9 +2,9 @@
 
 A blockchain and machine learning based platform for users to store their identity and use them as a authorization agent, thus replacing traditional concept of login and register processes.
 
-Built by - 
+Built by - <br />
 
-Ayush Bansal
-Yathansh Tewatia 
-Ganesh Setty
-Vedant Agnihotri
+- Ayush Bansal <br />
+- Yathansh Tewatia <br />
+- Ganesh Setty <br />
+- Vedant Agnihotri <br />

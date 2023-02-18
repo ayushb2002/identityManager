@@ -4,10 +4,8 @@ import Navbar from '../components/Navbar'
 import { ethers } from "ethers";
 import { toast } from "react-hot-toast";
 import { useRef } from "react";
-import { registerIdentity } from "../blockchain/interact";
+import { loginIdentity, registerIdentity } from "../blockchain/interact";
 import axios from "axios";
-
-import HCaptcha from "@hcaptcha/react-hcaptcha"
 
 const Register = () => {
 
@@ -36,9 +34,6 @@ const Register = () => {
   const adhaarVerifyCall = async (formData) => {
     const options = {
       method: "POST",
-      // mode:'cors',
-      // credentials:'same-origin',
-
       body: formData,
     };
     var adhaarVerify = await fetch("http://127.0.0.1:5000/aadhar_verify", options);
@@ -46,21 +41,10 @@ const Register = () => {
     var res = await adhaarVerify.json()
     return res;
   }
-  // const verifyOTP = async () => {
-  //   const options = {
-  //     method: "POST",
-  //     // mode:'cors',
-  //     // credentials:'same-origin',
 
-  //     body: formData,
-  //   };
-  //   var adhaarVerify = await fetch("http://127.0.0.1:5000/aadhar_verify", options);
-  //   console.log(adhaarVerify);
-  //   var res = await adhaarVerify.json()
-  //   return res;
-  // }
   const registration = async (e) => {
     e.preventDefault();
+    toast('Beginning registration process');
     const fileInput = document.querySelector("#aadhaar_image");
     const formData = new FormData();
 
@@ -73,14 +57,22 @@ const Register = () => {
     formData.append("dob", dob);
 
     var adhaarVerify = await adhaarVerifyCall(formData);
-    // let adhaarVerify = "True";
     console.log(adhaarVerify)
     if (adhaarVerify === 'True') {
       var response = await axios.post("http://127.0.0.1:5001/send_email_verification", {
         "email": email
       });
       console.log(response)
+      const exists = await loginIdentity(adhaar);
+      if(exists)
+      {
+        toast.error('Identity already exists!');
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      }
       setCurReg(1);
+      toast.success('Adhaar details matched successfully!');
     }
     else {
       toast.error("Aadhaar couldn't be verified!");
