@@ -2,10 +2,10 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
 from idcard import * 
 from face_recog import *
-import keras_ocr
+# import keras_ocr
 import base64
 
-pipeline = keras_ocr.pipeline.Pipeline(scale=2)
+# pipeline = keras_ocr.pipeline.Pipeline(scale=2)
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -27,7 +27,7 @@ def aadhar_verify():
     # dob=request.form.get('dob')
     # pwd=request.form.get('pwd')
     print('request =',name,aadhaar,gender)
-    res=str(aadhar_check(pipeline,imagefilepath,name,aadhaar,gender))
+    res=str(aadhar_check(imagefilepath,name,aadhaar,gender))
     print(res)
     print("Done")
     return jsonify(res)

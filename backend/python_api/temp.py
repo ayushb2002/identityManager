@@ -1,16 +1,17 @@
-def make_request(img):
-    import requests
-    url = "https://porcupyne.onrender.com/convert"
-    img_path = img
+import requests
+from pprint import pprint
+url = "https://porcupyne.onrender.com/convert"
+img_path = "./aadhar2.jpg"
 
-    files = {"file": open(img_path, "rb")}
+files = {"file": open(img_path, "rb")}
 
-    response = requests.post(url, files=files)
+response = requests.post(url, files=files)
 
-    if response.status_code == 200:
-        # pprint(type(response.json()))
-        return response.json()["results"]["lines"]
+if response.status_code == 200:
+    pprint(type(response.json()))
 
+
+lines = response.json()["results"]["lines"]
 import re
 
 def is_male(lines):
@@ -31,10 +32,6 @@ def aadhaar_checker(aadhaar, lines):
         res = res or bool(re.search(aadhaar, line))
     return res
 
-def aadhar_check(path,name,aadhaar,g):
-    try:
-        lines = make_request(path)
-        return is_male(lines) and name_checker(lines) and aadhaar_checker(lines)
-    except:
-        return False
-
+print(is_male(lines))
+print(name_checker("Vedant Agnihotri", lines))
+print(aadhaar_checker("570764181422", lines))
