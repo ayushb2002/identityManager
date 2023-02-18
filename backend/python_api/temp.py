@@ -1,17 +1,21 @@
-import requests
 from pprint import pprint
-url = "https://porcupyne.onrender.com/convert"
-img_path = "./aadhar2.jpg"
 
-files = {"file": open(img_path, "rb")}
+def make_request(img):
+    import requests
+    url = "https://porcupyne.onrender.com/convert"
+    img_path = img
 
-response = requests.post(url, files=files)
+    files = {"file": open(img_path, "rb")}
 
-if response.status_code == 200:
-    pprint(type(response.json()))
+    response = requests.post(url, files=files)
+
+    if response.status_code == 200:
+        # pprint(type(response.json()))
+        return response.json()["results"]["lines"]
 
 
-lines = response.json()["results"]["lines"]
+
+lines = make_request()
 import re
 
 def is_male(lines):

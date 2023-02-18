@@ -1,12 +1,17 @@
-import abi from './Identity.json' assert { type: "json" };
+//import abi from './Identity.json' assert { type: "json" };
 import ethers from 'ethers'
 import express from 'express'
 import cors from 'cors'
 import * as dotenv from 'dotenv'
 import bodyParser from 'body-parser';
 import nodemailer from "nodemailer";
-
+import * as fs from "fs";
 const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+const loadJSON = (path) => JSON.parse(fs.readFileSync(new URL(path, import.meta.url)));
+
+const json = loadJSON('./Identity.json');
+const abi = json.abi 
 
 function generateString(length) {
     let result = ' ';
@@ -24,13 +29,13 @@ async function sendEmail(to, subject, text) {
     let transporter = nodemailer.createTransport({
         host: "smtp-mail.outlook.com",
         auth: {
-            user: "eth4all@outlook.com",
+            user: "decentid@outlook.com",
             pass: pwd,
         }
     });
 
     let info = await transporter.sendMail({
-        from: "eth4all@outlook.com",
+        from: "decentid@outlook.com",
         to: to,
         subject: subject,
         text: text,
@@ -139,6 +144,17 @@ async function returnEmail (_signer) {
     }
 }
 
+async function linkToHost (_signer, _adhaar, _key) {
+    const contract = new ethers.Contract(contractAddress, abi.abi, _signer);
+    try {
+        const txn = await contract.linkAHost(_adhaar, _key);
+        txn.wait(1);
+        return true;
+    } catch (err) {
+        console.log(err);
+        return false;
+    }
+}
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors())
@@ -196,8 +212,13 @@ app.post('/login_step_1', cors(), async (req, res) => {
     }
 
     var email = await returnEmail(signer);
+    const link = await linkToHost(signer, adhaarSigner, apiKey);
+    if(!link)
+    {
+        res.send({"error": "Could not link the user to the host!"});
+        return;
+    }
 
-    // Generate OTP and send to email
     let otp = getOtp();
     while(otpDir.has(otp)){
         otp = getOtp();
@@ -210,11 +231,19 @@ app.post('/login_step_1', cors(), async (req, res) => {
 });
 
 app.post('/login_without_transaction', cors(), async (req, res) => {
-    var otp = req.body.otp; // otp by user
+    var otp = req.body.otp; 
     var signer = req.body.signer;
     var adhaarSigner = req.body.adhaarSigner;
-    // Check if OTP is correct!
+    var email = await returnEmail(signer);
     var otpVerify = true;
+
+    if(!otpDir.has(otp) || otpDir.get(otp) != email)
+    {
+        otpVerify = false;
+    }
+    else{
+        otpDir.delete(otp);
+    }    
 
     if(!otpVerify)
     {
@@ -245,11 +274,18 @@ app.post('/login_without_transaction', cors(), async (req, res) => {
 
 app.post('/login_with_transaction_step_1', cors(), async (req, res) => {
     var otp = req.body.otp; // otp by user
+    var email = await returnEmail(signer);
     var signer = req.body.signer;
     var adhaarSigner = req.body.adhaarSigner;
-    // Check if OTP is correct!
     var otpVerify = true;
-
+    if(!otpDir.has(otp) || otpDir.get(otp) != email)
+    {
+        otpVerify = false;
+    }
+    else{
+        otpDir.delete(otp);
+    }
+    
     if(!otpVerify)
     {
         res.send({"error": "OTP found incorrect!"});
