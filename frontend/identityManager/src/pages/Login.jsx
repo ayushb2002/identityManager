@@ -3,7 +3,7 @@ import Footer from '../components/Footer'
 import Navbar from '../components/Navbar'
 import { ethers } from "ethers";
 import { toast } from "react-hot-toast";
-import { loginIdentity, returnEmail } from '../blockchain/interact';
+import { loginIdentity, returnEmail, identityExists } from '../blockchain/interact';
 import { ReactSession } from "react-client-session";
 import { useRef } from 'react';
 import axios from 'axios';
