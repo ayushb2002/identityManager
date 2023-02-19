@@ -74,7 +74,9 @@ const Register = () => {
       });
       console.log(response)
       setCurReg(1);
-      toast.success('Adhaar details matched successfully!');
+      setTimeout(() => {
+        toast.success('Adhaar details matched successfully!');
+      }, 1000);
     }
     else {
       toast.error("Aadhaar couldn't be verified!");
