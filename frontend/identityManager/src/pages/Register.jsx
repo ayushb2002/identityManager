@@ -4,7 +4,7 @@ import Navbar from '../components/Navbar'
 import { ethers } from "ethers";
 import { toast } from "react-hot-toast";
 import { useRef } from "react";
-import { loginIdentity, registerIdentity } from "../blockchain/interact";
+import { identityExists, loginIdentity, registerIdentity } from "../blockchain/interact";
 import axios from "axios";
 
 const Register = () => {
@@ -45,6 +45,16 @@ const Register = () => {
   const registration = async (e) => {
     e.preventDefault();
     toast('Beginning registration process');
+
+    const exists = await identityExists();
+    if(exists)
+      {
+        toast.error('Identity already exists or has been deactivated!');
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      }
+
     const fileInput = document.querySelector("#aadhaar_image");
     const formData = new FormData();
 
@@ -63,14 +73,6 @@ const Register = () => {
         "email": email
       });
       console.log(response)
-      const exists = await loginIdentity(adhaar);
-      if(exists)
-      {
-        toast.error('Identity already exists!');
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
-      }
       setCurReg(1);
       toast.success('Adhaar details matched successfully!');
     }
@@ -168,7 +170,6 @@ const Register = () => {
                             "email": email,
                             "otp": val
                           });
-                          console.log(val);
                           var emailVerify = response.data.res;
                           if (emailVerify) {
                             var result = await registerIdentity(adhaar, name, dob, gender, email);

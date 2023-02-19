@@ -235,3 +235,17 @@ export const deactivateBusiness = async (_adhaar, _passphrase) => {
         return false;
     }
 }
+
+export const identityExists = async () => {
+    const contract = executeFunction();
+    try
+    {
+        const exists = await contract.identityExists();
+        return exists;
+    }
+    catch(err)
+    {
+        console.log(err);
+        return false;
+    }
+}

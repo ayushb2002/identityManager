@@ -31,13 +31,24 @@ const Login = () => {
 
   const signIn = async function (e) {
     e.preventDefault();
+    const exists = await identityExists();
+    if(!exists)
+      {
+        toast.error('Identity does not exist!');
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      }
+
     var result = await loginIdentity(adhaar);
     if (result) {
       var _email = await returnEmail(adhaar);
-      if(!email)
+      if(!_email)
       {
         toast.error('Adhaar number incorrect or user not registered!');
-        window.location.reload();
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       }
       else
       {

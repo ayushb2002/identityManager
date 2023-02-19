@@ -42,9 +42,13 @@ contract Identity {
     } 
 
     function loginIdentity(string memory _adhaar) public view returns (bool)  {
-        require(compareStrings(wallet[msg.sender], _adhaar), "Wallet does not belong to the adhaar holder!");
         require(!deactivated[_adhaar], "Adhaar has been deactivated");
-        return true;
+        if(compareStrings(wallet[msg.sender], _adhaar))
+        {
+            return true;
+        }
+        
+        return false;
     }
 
     function compareStrings(string memory a, string memory b) public pure returns (bool) {
@@ -210,5 +214,10 @@ contract Identity {
         require(!deactivatedHost[_key], "API has already been deactivated");
         return compareStrings(apiForHost[_key].adhaar, _adhaar); 
     } 
+
+    function identityExists() public view returns (bool)
+    {
+        return bytes(wallet[msg.sender]).length > 0;
+    }
 
 }
