@@ -35,7 +35,7 @@ const RegisterBusiness = () => {
     e.preventDefault();
     setCurReg(1);
     var _email = await returnEmail();
-    var response = await axios.post("http://127.0.0.1:5001/send_email_verification", {
+    var response = await axios.post("https://decentid-node.onrender.com/send_email_verification", {
       "email": _email
     });
 
@@ -121,7 +121,7 @@ const RegisterBusiness = () => {
                     <input type="number" placeholder="OTP" className="input input-bordered mt-6" ref={otpRef} />
                     <div className="form-control mt-6">
                       <button className="btn btn-primary" onClick={async () => {
-                        var response = await axios.post("http://127.0.0.1:5001/send_email_verification", {
+                        var response = await axios.post("https://decentid-node.onrender.com/send_email_verification", {
                           "email": email
                         });
                         console.log(response)
@@ -131,7 +131,7 @@ const RegisterBusiness = () => {
                     <div className="form-control mt-6">
                       <button className="btn btn-primary" onClick={async () => {
                         let val = otpRef.current.value;
-                        var response = await axios.post("http://127.0.0.1:5001/check_verification_code", {
+                        var response = await axios.post("https://decentid-node.onrender.com/check_verification_code", {
                           "email": email,
                           "otp": val
                         });

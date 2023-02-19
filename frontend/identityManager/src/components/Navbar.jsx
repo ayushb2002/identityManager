@@ -1,8 +1,30 @@
 import React, { useState, useLayoutEffect } from 'react';
 import { ReactSession } from "react-client-session";
+import axios from 'axios';
+function usePythonStarter(){
+  React.useEffect(()=>{
+      try{
+          fetch("https://decentid-python.onrender.com/test");
+      }
+      catch{
 
+      }
+  },[]);
+}
+
+function useProcupyneStarter(){
+  React.useEffect(()=>{
+      try{
+          axios.post("https://porcupyne.onrender.com/convert");
+      }
+      catch{
+
+      }
+  },[]);
+}
 const Navbar = () => {
-
+  usePythonStarter();
+  useProcupyneStarter();
   const [loggedIn, setLoggedIn] = useState(false);
 
   useLayoutEffect(() => {

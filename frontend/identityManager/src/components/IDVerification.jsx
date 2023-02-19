@@ -38,7 +38,7 @@ const IDVerification = () => {
             method: "POST",
             body: formData,
           };
-          var res = await fetch("http://127.0.0.1:5000/face_match", options);
+          var res = await fetch("https://decentid-python.onrender.com/face_match", options);
           console.log(res);
           var result = await res.json();
         }
@@ -87,7 +87,7 @@ const IDVerification = () => {
                         <input type="file" id="id_card" className="file-input file-input-ghost file-input-bordered" />
                     </div>
                     <label className="label">
-                        <span className="label-text">Take a live picture</span>
+                        <span className="label-text">Take a live picture in proper lighting</span>
                     </label>
                     <Weebcam image={image} setImage={setImage} />
                 </>

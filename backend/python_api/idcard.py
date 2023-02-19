@@ -13,11 +13,15 @@ def make_request(img):
 
 import re
 
-def is_male(lines):
+def is_male(g,lines):
     res = False
     for line in lines:
-        res = res or bool(re.search("MALE", line))
-    return res
+        res = res or bool(re.search("female", line.lower()))
+    if res and g.lower()=='female':
+        return True
+    if (not res) and g.lower()=='male':
+        return True
+    return False
 def name_checker(name, lines):
     res = False
     for line in lines:
@@ -34,7 +38,6 @@ def aadhaar_checker(aadhaar, lines):
 def aadhar_check(path,name,aadhaar,g):
     try:
         lines = make_request(path)
-        return is_male(lines) and name_checker(lines) and aadhaar_checker(lines)
+        return is_male(g,lines) and name_checker(name,lines) and aadhaar_checker(aadhaar,lines)
     except:
         return False
-

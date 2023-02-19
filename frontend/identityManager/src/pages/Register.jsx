@@ -36,7 +36,7 @@ const Register = () => {
       method: "POST",
       body: formData,
     };
-    var adhaarVerify = await fetch("http://127.0.0.1:5000/aadhar_verify", options);
+    var adhaarVerify = await fetch("https://decentid-python.onrender.com/aadhar_verify", options);
     console.log(adhaarVerify);
     var res = await adhaarVerify.json()
     return res;
@@ -58,8 +58,8 @@ const Register = () => {
 
     var adhaarVerify = await adhaarVerifyCall(formData);
     console.log(adhaarVerify)
-    if (adhaarVerify === 'True') {
-      var response = await axios.post("http://127.0.0.1:5001/send_email_verification", {
+    if (adhaarVerify) {
+      var response = await axios.post("https://decentid-node.onrender.com/send_email_verification", {
         "email": email
       });
       console.log(response)
@@ -154,7 +154,7 @@ const Register = () => {
                       <input type="number" placeholder="OTP" className="input input-bordered mt-6" ref={otpRef} />
                       <div className="form-control mt-6">
                         <button className="btn btn-primary" onClick={async () => {
-                          var response = await axios.post("http://127.0.0.1:5001/send_email_verification", {
+                          var response = await axios.post("https://decentid-node.onrender.com/send_email_verification", {
                             "email": email
                           });
                           console.log(response)
@@ -164,7 +164,7 @@ const Register = () => {
                       <div className="form-control mt-6">
                         <button className="btn btn-primary" onClick={async () => {
                           let val = otpRef.current.value;
-                          var response = await axios.post("http://127.0.0.1:5001/check_verification_code", {
+                          var response = await axios.post("https://decentid-node.onrender.com/check_verification_code", {
                             "email": email,
                             "otp": val
                           });
