@@ -40,8 +40,8 @@ const Contact = () => {
             />
           </figure>
           <div className="card-body">
-            <h2 className="card-title">Ganesh G. Shetty</h2>
-            <p>Web Developer</p>
+            <h2 className="card-title">Ganesh G. Setty</h2>
+            <p>ML Developer, Web Developer</p>
             <div className="card-actions justify-end">
               <a href="#"><button className="btn btn-primary">Contact me</button></a>
             </div>
@@ -61,7 +61,7 @@ const Contact = () => {
           </figure>
           <div className="card-body">
             <h2 className="card-title">Yathansh Tewatia</h2>
-            <p>Web Developer</p>
+            <p>ML Developer, Web Developer</p>
             <div className="card-actions justify-end">
               <a href="#"><button className="btn btn-primary">Contact me</button></a>
             </div>
@@ -81,7 +81,7 @@ const Contact = () => {
           </figure>
           <div className="card-body">
             <h2 className="card-title">Vedant Agnihotri</h2>
-            <p>Web Developer</p>
+            <p>ML Developer, Web Developer</p>
             <div className="card-actions justify-end">
               <a href="#"><button className="btn btn-primary">Contact me</button></a>
             </div>
