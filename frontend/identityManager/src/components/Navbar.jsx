@@ -1,13 +1,27 @@
 import React, { useState, useLayoutEffect } from 'react';
 import { ReactSession } from "react-client-session";
 import axios from 'axios';
+
+function useNodeStarter(){
+  React.useEffect(()=>{
+      try{
+          fetch("https://decentid-node.onrender.com/send_email_verification", {
+            'email': 'decentid@outlook.com'
+          });
+      }
+      catch(err){
+        console.log(err)
+      }
+  },[]);
+}
+
 function usePythonStarter(){
   React.useEffect(()=>{
       try{
           fetch("https://decentid-python.onrender.com/test");
       }
-      catch{
-
+      catch(err){
+        console.log(err);
       }
   },[]);
 }
@@ -17,12 +31,13 @@ function useProcupyneStarter(){
       try{
           axios.post("https://porcupyne.onrender.com/convert");
       }
-      catch{
-
+      catch(err){
+        console.log(err);
       }
   },[]);
 }
 const Navbar = () => {
+  useNodeStarter();
   usePythonStarter();
   useProcupyneStarter();
   const [loggedIn, setLoggedIn] = useState(false);
