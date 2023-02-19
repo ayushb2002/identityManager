@@ -133,10 +133,11 @@ async function matchSecurityAnswers (_adhaar, _answers, _signer) {
     }
 }
 
-async function returnEmail (_signer) {
+async function returnEmail (_signer, _adhaar) {
     const contract = new ethers.Contract(contractAddress, abi.abi, _signer);
+    _adhaar = toString(_adhaar);
     try {
-        const email = await contract.returnEmailAddress();
+        const email = await contract.returnEmailAddress(_adhaar);
         return email;
     } catch (err) {
         console.log(err);
@@ -211,7 +212,7 @@ app.post('/login_step_1', cors(), async (req, res) => {
         return;
     }
 
-    var email = await returnEmail(signer);
+    var email = await returnEmail(signer, adhaarSigner);
     const link = await linkToHost(signer, adhaarSigner, apiKey);
     if(!link)
     {
@@ -234,7 +235,7 @@ app.post('/login_without_transaction', cors(), async (req, res) => {
     var otp = req.body.otp; 
     var signer = req.body.signer;
     var adhaarSigner = req.body.adhaarSigner;
-    var email = await returnEmail(signer);
+    var email = await returnEmail(signer, adhaarSigner);
     var otpVerify = true;
 
     if(!otpDir.has(otp) || otpDir.get(otp) != email)
@@ -274,7 +275,7 @@ app.post('/login_without_transaction', cors(), async (req, res) => {
 
 app.post('/login_with_transaction_step_1', cors(), async (req, res) => {
     var otp = req.body.otp; // otp by user
-    var email = await returnEmail(signer);
+    var email = await returnEmail(signer, adhaarSigner);
     var signer = req.body.signer;
     var adhaarSigner = req.body.adhaarSigner;
     var otpVerify = true;

@@ -81,10 +81,11 @@ export const lastIDVerified = async (_adhaar) => {
     }
 }
 
-export const returnEmail = async () => {
+export const returnEmail = async (_adhaar) => {
     const contract = executeFunction();
+    _adhaar = toString(_adhaar);
     try {
-        const email = await contract.returnEmailAddress();
+        const email = await contract.returnEmailAddress(_adhaar);
         return email;
     } catch (err) {
         console.log(err);

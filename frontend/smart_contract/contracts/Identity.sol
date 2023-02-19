@@ -197,9 +197,9 @@ contract Identity {
         return questions[_adhaar][questions[_adhaar].length - 1];
     }
 
-    function returnEmailAddress() public view returns (string memory)
+    function returnEmailAddress(string memory _adhaar) public view returns (string memory)
     {
-        string memory _adhaar = wallet[msg.sender];
+        require(compareStrings(wallet[msg.sender], _adhaar), "User does not exists!");
         string memory _email = adhaar[_adhaar].emailAddress;
         return _email;
     }

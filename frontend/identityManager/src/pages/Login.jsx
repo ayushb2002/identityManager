@@ -33,16 +33,21 @@ const Login = () => {
     e.preventDefault();
     var result = await loginIdentity(adhaar);
     if (result) {
-
-      setCurReg(1);
-      var _email = await returnEmail();
-      var response = await axios.post("https://decentid-node.onrender.com/send_email_verification", {
+      var _email = await returnEmail(adhaar);
+      if(!email)
+      {
+        toast.error('Adhaar number incorrect or user not registered!');
+        window.location.reload();
+      }
+      else
+      {
+        setCurReg(1);
+        var response = await axios.post("https://decentid-node.onrender.com/send_email_verification", {
         "email": _email
       });
 
       setEmail(_email);
-      // Process OTP here
-
+      }
     }
     else {
       toast.error('Invalid credentials!');
