@@ -18,7 +18,7 @@ export const executeFunction = () => {
 export const registerIdentity = async (_adhaar, _name, _dob, _gender, _email) => {
     const contract = executeFunction();
     try {
-        _adhaar = toString(_adhaar);
+        _adhaar = `${_adhaar}`;
         var date = new Date(_dob);
         var _dobSeconds = date.getTime() / 1000;
         const txn = await contract.registerIdentity(_adhaar, _name, _dobSeconds, _gender, _email);
@@ -32,9 +32,10 @@ export const registerIdentity = async (_adhaar, _name, _dob, _gender, _email) =>
 
 export const loginIdentity = async (_adhaar) => {
     const contract = executeFunction();
+    _adhaar = `${_adhaar}`;
     try {
-        _adhaar = toString(_adhaar);
         const exists = await contract.loginIdentity(_adhaar);
+        alert(exists);
         if (exists)
             return true;
         else
@@ -48,7 +49,7 @@ export const loginIdentity = async (_adhaar) => {
 export const returnIdentity = async (_adhaar) => {
     const contract = executeFunction();
     try {
-        _adhaar = toString(_adhaar);
+        _adhaar = `${_adhaar}`;
         const idty = await contract.returnIdentity(_adhaar);
         return idty;
     } catch (err) {
@@ -60,7 +61,7 @@ export const returnIdentity = async (_adhaar) => {
 export const lastHumanVerified = async (_adhaar) => {
     const contract = executeFunction();
     try {
-        _adhaar = toString(_adhaar);
+        _adhaar = `${_adhaar}`;
         const lastHV = await contract.lastHumanVerified(_adhaar);
         return parseInt(lastHV);
     } catch (err) {
@@ -71,7 +72,7 @@ export const lastHumanVerified = async (_adhaar) => {
 
 export const lastIDVerified = async (_adhaar) => {
     const contract = executeFunction();
-    _adhaar = toString(_adhaar);
+    _adhaar = `${_adhaar}`;
     try {
         const lastID = await contract.returnIdExpiry(_adhaar);
         return parseInt(lastID);
@@ -83,7 +84,7 @@ export const lastIDVerified = async (_adhaar) => {
 
 export const returnEmail = async (_adhaar) => {
     const contract = executeFunction();
-    _adhaar = toString(_adhaar);
+    _adhaar = `${_adhaar}`;
     try {
         const email = await contract.returnEmailAddress(_adhaar);
         return email;
@@ -97,7 +98,7 @@ export const saveHumanVerification = async (_adhaar) => {
     var _date = new Date();
     var _seconds = parseInt(_date.getTime() / 1000);
     const contract = executeFunction();
-    _adhaar = toString(_adhaar);
+    _adhaar = `${_adhaar}`;
     try {
         const txn = await contract.humanVerify(_adhaar, _seconds);
         txn.wait(1);
@@ -113,7 +114,7 @@ export const saveIDCard = async (_adhaar) => {
     _date.setFullYear(_date.getFullYear() + 1);
     var _seconds = parseInt(_date.getTime() / 1000);
     const contract = executeFunction();
-    _adhaar = toString(_adhaar);
+    _adhaar = `${_adhaar}`;
     try {
         const txn = await contract.idCardVerify(_adhaar, _seconds);
         txn.wait(1);
@@ -126,7 +127,7 @@ export const saveIDCard = async (_adhaar) => {
 
 export const registerQuestions = async (_adhaar, _questions, _answers) => {
     const contract = executeFunction();
-    _adhaar = toString(_adhaar);
+    _adhaar = `${_adhaar}`;
 
     for (var i = 0; i < 2; i++) {
         _answers[i] = bcrypt.hashSync(_answers[i], salt);
@@ -144,7 +145,7 @@ export const registerQuestions = async (_adhaar, _questions, _answers) => {
 
 export const returnQuestions = async (_adhaar) => {
     const contract = executeFunction();
-    _adhaar = toString(_adhaar);
+    _adhaar = `${_adhaar}`;
     try {
         const questionAnswers = await contract.returnSecurityQuestions(_adhaar);
         var questions = questionAnswers[0];
@@ -157,7 +158,7 @@ export const returnQuestions = async (_adhaar) => {
 
 export const deactivate = async (_adhaar) => {
     const contract = executeFunction();
-    _adhaar = toString(_adhaar);
+    _adhaar = `${_adhaar}`;
     try {
         const txn = await contract.deactivate(_adhaar);
         txn.wait(1);
@@ -170,7 +171,7 @@ export const deactivate = async (_adhaar) => {
 
 export const matchSecurityAnswers = async (_adhaar, _answers) => {
     const contract = executeFunction();
-    _adhaar = toString(_adhaar);
+    _adhaar = `${_adhaar}`;
     try {
         const questionAnswers = await contract.returnSecurityQuestions(_adhaar);
         var answers = questionAnswers[1];
@@ -188,7 +189,7 @@ export const matchSecurityAnswers = async (_adhaar, _answers) => {
 
 export const registerBusiness = async (_adhaar, _name, _passphrase) => {
     const contract = executeFunction();
-    _adhaar = toString(_adhaar);
+    _adhaar = `${_adhaar}`;
     const _key = bcrypt.hashSync(_passphrase, salt);
     try
     {
@@ -205,7 +206,7 @@ export const registerBusiness = async (_adhaar, _name, _passphrase) => {
 
 export const matchAPIKey = async (_adhaar, _passphrase) => {
     const contract = executeFunction();
-    _adhaar = toString(_adhaar);
+    _adhaar = `${_adhaar}`;
     const _key = bcrypt.hashSync(_passphrase, salt);
     try
     {
@@ -221,7 +222,7 @@ export const matchAPIKey = async (_adhaar, _passphrase) => {
 
 export const deactivateBusiness = async (_adhaar, _passphrase) => {
     const contract = executeFunction();
-    _adhaar = toString(_adhaar);
+    _adhaar = `${_adhaar}`;
     const _key = bcrypt.hashSync(_passphrase, salt);
     try
     {
@@ -238,7 +239,7 @@ export const deactivateBusiness = async (_adhaar, _passphrase) => {
 
 export const identityExists = async (_adhaar) => {
     const contract = executeFunction();
-    _adhaar = toString(_adhaar);
+    _adhaar = `${_adhaar}`;
     try
     {
         const exists = await contract.identityExists(_adhaar);

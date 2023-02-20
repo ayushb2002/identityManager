@@ -31,6 +31,7 @@ const Login = () => {
 
   const signIn = async function (e) {
     e.preventDefault();
+    alert(adhaar);
     const exists = await identityExists(adhaar);
     if(!exists)
       {
