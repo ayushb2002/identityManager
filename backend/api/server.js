@@ -147,6 +147,7 @@ async function returnEmail (_signer, _adhaar) {
 
 async function linkToHost (_signer, _adhaar, _key) {
     const contract = new ethers.Contract(contractAddress, abi.abi, _signer);
+    _adhaar = toString(_adhaar);
     try {
         const txn = await contract.linkAHost(_adhaar, _key);
         txn.wait(1);
@@ -213,6 +214,11 @@ app.post('/login_step_1', cors(), async (req, res) => {
     }
 
     var email = await returnEmail(signer, adhaarSigner);
+    if(!email)
+    {
+        res.send({"error": "Email address of signer does not exist!"});
+        return;
+    }
     const link = await linkToHost(signer, adhaarSigner, apiKey);
     if(!link)
     {
