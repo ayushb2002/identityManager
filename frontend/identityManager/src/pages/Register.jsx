@@ -193,6 +193,10 @@ const Register = () => {
                               }, 1000);
                             }
                           }
+                          else
+                          {
+                            toast.error('Invalid OTP!');
+                          }
                           console.log(emailVerify);
                         }}>Verify</button>
                       </div>
