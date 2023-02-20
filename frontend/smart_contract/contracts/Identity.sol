@@ -220,7 +220,7 @@ contract Identity {
         if(deactivated[_adhaar])
             return false;
             
-        return (bytes(wallet[msg.sender]).length > 0) && (adhaar[_adhaar].dateOfBirth > 0);
+        return (bytes(wallet[msg.sender]).length > 0) || (adhaar[_adhaar].dateOfBirth > 0);
     }
 
 }
