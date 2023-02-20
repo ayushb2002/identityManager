@@ -46,7 +46,7 @@ const Register = () => {
     e.preventDefault();
     toast('Beginning registration process');
 
-    const exists = await identityExists();
+    const exists = await identityExists(adhaar);
     if(exists)
       {
         toast.error('Identity already exists or has been deactivated!');
@@ -137,7 +137,12 @@ const Register = () => {
                       <label className="label">
                         <span className="label-text">Gender</span>
                       </label>
-                      <input type="text" placeholder="Male / Female" className="input input-bordered" onChange={(e) => setGender(e.target.value)} />
+                      <select id="" onChange={(e) => setGender(e.target.value)}>
+                        <option value="" selected="true" disabled="true">Select</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                      </select>
                     </div>
                     <div className="form-control">
                       <label className="label">

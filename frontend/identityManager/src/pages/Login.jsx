@@ -31,7 +31,7 @@ const Login = () => {
 
   const signIn = async function (e) {
     e.preventDefault();
-    const exists = await identityExists();
+    const exists = await identityExists(adhaar);
     if(!exists)
       {
         toast.error('Identity does not exist!');

@@ -215,9 +215,12 @@ contract Identity {
         return compareStrings(apiForHost[_key].adhaar, _adhaar); 
     } 
 
-    function identityExists() public view returns (bool)
+    function identityExists(string memory _adhaar) public view returns (bool)
     {
-        return bytes(wallet[msg.sender]).length > 0;
+        if(deactivated[_adhaar])
+            return false;
+            
+        return (bytes(wallet[msg.sender]).length > 0) && (adhaar[_adhaar].dateOfBirth > 0);
     }
 
 }

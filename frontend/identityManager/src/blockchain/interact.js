@@ -236,11 +236,12 @@ export const deactivateBusiness = async (_adhaar, _passphrase) => {
     }
 }
 
-export const identityExists = async () => {
+export const identityExists = async (_adhaar) => {
     const contract = executeFunction();
+    _adhaar = toString(_adhaar);
     try
     {
-        const exists = await contract.identityExists();
+        const exists = await contract.identityExists(_Adhaar);
         return exists;
     }
     catch(err)
