@@ -241,7 +241,7 @@ export const identityExists = async (_adhaar) => {
     _adhaar = toString(_adhaar);
     try
     {
-        const exists = await contract.identityExists(_Adhaar);
+        const exists = await contract.identityExists(_adhaar);
         return exists;
     }
     catch(err)
