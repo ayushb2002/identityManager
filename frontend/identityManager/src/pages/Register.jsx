@@ -68,7 +68,7 @@ const Register = () => {
 
     var adhaarVerify = await adhaarVerifyCall(formData);
     console.log(adhaarVerify)
-    if (adhaarVerify) {
+    if (adhaarVerify == 'True') {
       var response = await axios.post("https://decentid-node.onrender.com/send_email_verification", {
         "email": email
       });
