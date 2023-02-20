@@ -37,6 +37,7 @@ contract Identity {
 
     function registerIdentity(string memory _adhaar, string memory _name, uint256 _dob, string memory _gender, string memory _email) public {
         require(!deactivated[_adhaar], "Adhaar has been deactivated");
+        require(!identityExists(_adhaar), "Identity already exists");
         adhaar[_adhaar] = Data(msg.sender, _name, _dob, _gender, _email);
         wallet[msg.sender] = _adhaar;
     } 
@@ -220,7 +221,13 @@ contract Identity {
         if(deactivated[_adhaar])
             return false;
             
-        return (bytes(wallet[msg.sender]).length > 0) || (adhaar[_adhaar].dateOfBirth > 0);
+        if(bytes(wallet[msg.sender]).length > 0)
+            return true;   
+        
+        if (adhaar[_adhaar].dateOfBirth > 0)
+            return true;
+
+        return false;
     }
 
 }
